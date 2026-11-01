@@ -72,7 +72,7 @@ Mesmo login dos outros apps: Edge Function `membros-acesso` (Supabase `dxybmayff
 `membros_compras`. **Plano único:** o item `hidrodiag` libera tudo (120 fichas, PDF e os 4 bônus). O item
 `hidrodiag-completo` também abre tudo.
 Suporte: Edge Function `membros-suporte`, tabela `membros_suporte`, `app = 'hidrodiag'`. Push: `membros-push`,
-`app = 'hidrodiag'`. `ACEITA_QUALQUER_COMPRA` (no começo do script do `index.html`) fica `false`.
+`app = 'hidrodiag'`. `ACEITA_QUALQUER_COMPRA` (no começo do script do `index.html`) fica `false`. **Login livre:** `LOGIN_LIVRE = true` (01/11/2026, pedido do Heitor enquanto o produto valida): qualquer e-mail entra, com ou sem compra. Para voltar a conferir a compra, troque para `false`.
 
 ### Webhook: feito
 

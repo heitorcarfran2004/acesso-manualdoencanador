@@ -1185,6 +1185,8 @@
   var ITEM = 'hidrodiag', ITEM_COMPLETO = 'hidrodiag-completo', APP = 'hidrodiag';
   // com true, qualquer compra registrada entra nas fichas (só para destravar a entrega se o webhook atrasar)
   var ACEITA_QUALQUER_COMPRA = false;
+  // true = qualquer e-mail entra, sem conferir a compra (ver /api/login)
+  var LOGIN_LIVRE = true;
   // logins de teste: SÓ funcionam rodando em localhost/127.0.0.1 (no domínio publicado não existem).
   // No teste o suporte fica no próprio aparelho (a Edge Function só aceita e-mail com compra paga).
   var LOCAL = /^(localhost|127\.0\.0\.1)$/.test(location.hostname);
@@ -1225,6 +1227,24 @@
     if (u.indexOf('/api/login') === 0) {
       var email = String(corpo.email || '').trim().toLowerCase();
       if (TESTE[email]) { s(CHAVE_EMAIL, email); s(CHAVE_ITENS, JSON.stringify(TESTE[email])); preencherPerfil(email, 'JOÃO TESTE'); return json({ ok: true }); }
+      // LIBERADO PARA QUALQUER LOGIN (pedido do Heitor, 01/11/2026, enquanto o produto valida): qualquer
+      // e-mail entra, com ou sem compra, como no app do ES. A consulta ao membros-acesso só puxa o nome do
+      // comprador; se falhar ou demorar 3 s, entra igual. Para voltar a conferir a compra, troque
+      // LOGIN_LIVRE para false.
+      if (LOGIN_LIVRE) {
+        if (!email) email = 'visitante';
+        var liberar = function (nome) {
+          s(CHAVE_EMAIL, email); s(CHAVE_ITENS, JSON.stringify([ITEM, ITEM_COMPLETO]));
+          preencherPerfil(email, nome);
+          return json({ ok: true });
+        };
+        var nomeCompra = puro(URL_ACESSO, { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ email: email }) })
+          .then(function (r) { return r.ok ? r.json() : {}; })
+          .then(function (d) { return d.nome || ''; })
+          .catch(function () { return ''; });
+        var limite = new Promise(function (ok) { setTimeout(function () { ok(''); }, 3000); });
+        return Promise.race([nomeCompra, limite]).then(liberar, function () { return liberar(''); });
+      }
       return puro(URL_ACESSO, { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ email: email }) })
         .then(function (r) { return r.ok ? r.json() : { itens: [] }; })
         .then(function (d) {
