@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <!-- Ícone do app HIDRODIAG: a gota azul das fichas com a chave laranja do encanador, no azul-marinho da página.
+       Fundo cheio até a borda (serve também como "maskable"); o desenho fica no centro seguro. Sem marca de ninguém. -->
+  <defs>
+    <radialGradient id="f" cx="50%" cy="36%" r="78%">
+      <stop offset="0" stop-color="#1B3C6B"/>
+      <stop offset=".62" stop-color="#0B2340"/>
+      <stop offset="1" stop-color="#06172C"/>
+    </radialGradient>
+    <linearGradient id="g" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#5BB8FF"/>
+      <stop offset="1" stop-color="#1673D6"/>
+    </linearGradient>
+    <linearGradient id="l" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#FFB053"/>
+      <stop offset="1" stop-color="#E5780C"/>
+    </linearGradient>
+  </defs>
+  <rect width="512" height="512" fill="url(#f)"/>
+  <g transform="translate(-32 0)">
+  <!-- gota -->
+  <path d="M236 92C236 92 140 206 140 282a96 96 0 0 0 192 0C332 206 236 92 236 92Z" fill="url(#g)"/>
+  <path d="M196 270c0 30 16 52 40 60" fill="none" stroke="#E8F4FF" stroke-width="16" stroke-linecap="round" opacity=".9"/>
+  <!-- chave de boca, na diagonal, por cima da gota (a boca aberta é recortada por máscara) -->
+  <mask id="boca" maskUnits="userSpaceOnUse" x="0" y="0" width="512" height="512">
+    <rect width="512" height="512" fill="#fff"/>
+    <rect x="402" y="313" width="80" height="36" rx="4" fill="#000"/>
+  </mask>
+  <g transform="rotate(-45 330 331)">
+    <g mask="url(#boca)" stroke="#0B2340" stroke-width="12" paint-order="stroke">
+      <rect x="214" y="311" width="190" height="40" rx="20" fill="url(#l)"/>
+      <circle cx="412" cy="331" r="54" fill="url(#l)"/>
+      <rect x="214" y="311" width="190" height="40" rx="20" fill="url(#l)" stroke="none"/>
+    </g>
+  </g>
+  </g>
+</svg>
